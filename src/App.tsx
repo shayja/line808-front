@@ -1,8 +1,6 @@
-import React from "react";
 import logo from "./assets/logo.png";
 
 function App() {
-  const [showEmail, setShowEmail] = React.useState(false);
   const user = "dj";
   const domain = "line808.com";
 
@@ -18,24 +16,15 @@ function App() {
         High-energy DJ mixing deep house, techno, and electronic vibes.
         Available for club sets, private events, and festivals.
       </p>
-      {!showEmail ? (
-        <button
-          onClick={() => setShowEmail(true)}
-          className="px-6 py-2 bg-[--color-primary] text-black rounded hover:opacity-90 transition"
+      <p className="text-lg mb-6">
+        📧{"Contact me at "}
+        <a
+          href={`mailto:${user}@${domain}`}
+          className="text-[--color-primary] hover:text-[--color-accent] underline"
         >
-          Show Email
-        </button>
-      ) : (
-        <p className="text-lg mb-6">
-          📧{" "}
-          <a
-            href={`mailto:${user}@${domain}`}
-            className="text-[--color-primary] hover:text-[--color-accent] underline"
-          >
-            {user}@{domain}
-          </a>
-        </p>
-      )}
+          {user}@{domain}
+        </a>
+      </p>
 
       <div className="flex gap-6 justify-center mt-6">
         <a
