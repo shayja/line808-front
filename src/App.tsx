@@ -18,7 +18,6 @@ function App() {
         High-energy DJ mixing deep house, techno, and electronic vibes.
         Available for club sets, private events, and festivals.
       </p>
-
       {!showEmail ? (
         <button
           onClick={() => setShowEmail(true)}
