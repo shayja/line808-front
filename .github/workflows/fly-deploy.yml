@@ -1,0 +1,39 @@
+name: Deploy Frontend to Fly
+
+on:
+  push:
+    branches:
+      - main # or whichever branch you want to auto-deploy
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        working-directory: front
+        run: npm install
+
+      - name: Build site
+        working-directory: front
+        run: npm run build
+
+      - name: Setup Flyctl
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          export PATH="$PATH:${HOME}/.fly/bin"
+
+      - name: Deploy to Fly
+        working-directory: front
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: fly deploy --config fly.toml --detach
