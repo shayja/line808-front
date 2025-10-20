@@ -11,12 +11,5 @@ primary_region = 'fra'
   min_machines_running = 0
   processes = ['app']
 
-  # Redirect everything from line808.fly.dev → line808.com
-  [[http_service.routes]]
-    match = { host = "line808.fly.dev" }
-    type = "redirect"
-    to = "https://line808.com"
-    status_code = 301
-
 [[vm]]
   size = 'shared-cpu-1x'
