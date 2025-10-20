@@ -11,11 +11,11 @@ primary_region = 'fra'
   min_machines_running = 0
   processes = ['app']
 
+  # Redirect everything from line808.fly.dev → line808.com
   [[http_service.routes]]
-    # Redirect all traffic from line808.fly.dev → line808.com
-    handlers = ["redirect"]
     match = { host = "line808.fly.dev" }
-    redirect_to = "https://line808.com"
+    type = "redirect"
+    to = "https://line808.com"
     status_code = 301
 
 [[vm]]
