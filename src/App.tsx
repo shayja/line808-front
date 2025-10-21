@@ -25,8 +25,22 @@ function App() {
           {user}@{domain}
         </a>
       </p>
-
-      <div className="flex gap-6 justify-center mt-6">
+      🔥 Follow DJ Line808:
+      <div className="flex flex-wrap gap-6 justify-center mt-6">
+        <a
+          href="https://facebook.com/line808"
+          target="_blank"
+          className="hover:text-[--color-primary]"
+        >
+          Facebook
+        </a>
+        <a
+          href="https://instagram.com/djline808"
+          target="_blank"
+          className="hover:text-[--color-accent]"
+        >
+          Instagram
+        </a>
         <a
           href="https://soundcloud.com/line808"
           target="_blank"
@@ -35,21 +49,20 @@ function App() {
           SoundCloud
         </a>
         <a
-          href="https://www.instagram.com/djline808"
+          href="https://mixcloud.com/line808"
           target="_blank"
           className="hover:text-[--color-accent]"
         >
-          Instagram
+          Mixcloud
         </a>
         <a
-          href="https://facebook.com"
+          href="https://youtube.com/@djline808"
           target="_blank"
           className="hover:text-[--color-primary]"
         >
-          Facebook
+          YouTube
         </a>
       </div>
-
       <footer className="mt-12 text-xs text-gray-500">
         © {new Date().getFullYear()} DJ Line808 — All rights reserved
       </footer>
