@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <symbol id="icon-soundcloud" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M17.5 10.5c-.3 0-.6 0-.9.1a4.4 4.4 0 00-4.4-3.6c-.5 0-1 .1-1.4.2a6 6 0 00-5.2 5.9 3 3 0 00.1.8H17.5a2.5 2.5 0 000-5z"/>
+  </symbol>
+
+  <symbol id="icon-mixcloud" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M14.5 8.5a5.5 5.5 0 00-10.8 1.2v.3a3.8 3.8 0 00-2 3.3A3.7 3.7 0 005.4 17H14a4.5 4.5 0 00.5-8.5zM20 9a3 3 0 010 6"/>
+  </symbol>
+
+  <symbol id="icon-youtube" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M10 15l5.2-3L10 9v6zm12-3a52 52 0 00-.7-7.7A2.8 2.8 0 0018.5 2H5.5A2.8 2.8 0 002 4.3 52 52 0 001.3 12 52 52 0 002 19.7 2.8 2.8 0 005.5 22h13a2.8 2.8 0 002.8-2.3A52 52 0 0022 12z"/>
+  </symbol>
+
+  <symbol id="icon-facebook" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.3h-1.2c-1.2 0-1.6.8-1.6 1.6v1.9H16l-.4 2.9h-2.2v7A10 10 0 0022 12z"/>
+  </symbol>
+
+  <symbol id="icon-instagram" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+  </symbol>
+
+  <symbol id="icon-tiktok" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M16.5 7.5a4.5 4.5 0 01-2.5-.8v6.6a4.5 4.5 0 11-4.5-4.5h.5v2.3a2.2 2.2 0 00-.5 0 2.2 2.2 0 102.2 2.2V3h2.3a4.5 4.5 0 004.5 4.5z"/>
+  </symbol>
+
+  <symbol id="icon-x" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M18.9 2H21l-9.3 10 8.3 10H14l-5-6.5L3.6 22H1.5l9.6-10.6L3.3 2h4.1l4.6 6.1L18.9 2z"/>
+  </symbol>
+
+</svg>
