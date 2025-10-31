@@ -2,16 +2,6 @@
 
 const mixes = [
   {
-    title: "DJ Line808 - Memory Circuit (DJ Mix) [2025]",
-    date: "2025",
-    soundcloud: "https://soundcloud.com/line808/dj-set-2025-10",
-    mixcloud:
-      "https://www.mixcloud.com/line808/dj-line808-memory-circuit-dj-mix/",
-    description:
-      "RDH techno trip - raw percussion, hypnotic layers, club-ready energy. Recorded in 2025.",
-    tags: ["RDH", "Raw Techno", "Hypnotic", "2025"],
-  },
-  {
     title: "DJ Line808 - Deep Signal (Techno Mix | October 2025)",
     date: "October 2025",
     soundcloud: "https://soundcloud.com/line808/deep-signal-dj-mix",
@@ -20,6 +10,16 @@ const mixes = [
     description:
       "Part of the Deep Signal series - deep, rolling, hypnotic techno for late hours.",
     tags: ["RDH", "Deep Techno", "Series", "2025"],
+  },
+  {
+    title: "DJ Line808 - Memory Circuit (DJ Mix) [2025]",
+    date: "2025",
+    soundcloud: "https://soundcloud.com/line808/dj-set-2025-10",
+    mixcloud:
+      "https://www.mixcloud.com/line808/dj-line808-memory-circuit-dj-mix/",
+    description:
+      "RDH techno trip - raw percussion, hypnotic layers, club-ready energy. Recorded in 2025.",
+    tags: ["RDH", "Raw Techno", "Hypnotic", "2025"],
   },
 ];
 
