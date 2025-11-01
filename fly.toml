@@ -1,15 +1,17 @@
-app = 'line808'
-primary_region = 'fra'
+app = "line808"
+primary_region = "fra"
 
 [build]
+  dockerfile = "Dockerfile"
+  context = "."
 
 [http_service]
   internal_port = 80
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
 
 [[vm]]
   size = 'shared-cpu-1x'

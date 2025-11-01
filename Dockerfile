@@ -1,31 +1,39 @@
-# Build stage
-FROM node:24-alpine AS build
-
+# ========== 1) Build frontend ==========
+FROM node:25-alpine AS web-build
 WORKDIR /app
 
-# Copy package files, install dependencies
-COPY package*.json ./
+# Install dependencies
+COPY front/package*.json ./
 RUN npm install
 
-# Copy all source
-COPY . .
-
-# Build the React / Vite app
+# Copy source and build
+COPY front/ .
 RUN npm run build
 
-# Production stage using nginx
+# ========== 2) Build Go backend ==========
+FROM golang:1.25.3-alpine AS go-build
+WORKDIR /go/src/app
+
+COPY backend/ ./
+RUN go mod tidy
+RUN go build -o /go/bin/mixes-api .
+
+# ========== 3) Final image ==========
 FROM nginx:alpine
 
-# remove default nginx static assets
+# clean default nginx html
 RUN rm -rf /usr/share/nginx/html/*
 
-# copy built app
-COPY --from=build /app/dist /usr/share/nginx/html
+# copy frontend build
+COPY --from=web-build /app/dist /usr/share/nginx/html
 
-# 👉 copy our custom nginx config
+# copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# copy go binary
+COPY --from=go-build /go/bin/mixes-api /usr/local/bin/mixes-api
 
 EXPOSE 80
 
-# Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+# run both nginx + go api
+CMD ["/bin/sh", "-c", "/usr/local/bin/mixes-api & nginx -g 'daemon off;'"]
