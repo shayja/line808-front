@@ -51,7 +51,7 @@ func main() {
 				Title:  "Memory Circuit",
 				Description: "Line808 – Groove Techno Mix (October 2025)",
 				Length: "1:16:00",
-				Tags:   []string{"Raw", "Deep", "Deep Techno"},
+				Tags:   []string{"Raw", "Deep", "Deep Techno",  "130BPM", "Groove", "RDH"},
 				Soundcloud: "https://soundcloud.com/line808/dj-set-2025-10",
 				Mixcloud: "https://www.mixcloud.com/line808/dj-line808-memory-circuit-dj-mix/",
 				TrackID: "253A2190285995",

@@ -1,50 +1,11 @@
 // src/pages/Home.tsx
-import { useEffect, useState } from "react";
-
-type Mix = {
-  title: string;
-  description?: string;
-  length: string;
-  tags: string[];
-  soundcloud: string;
-  mixcloud?: string;
-  track_id?: string;
-  date?: string;
-  location?: string;
-};
+//import { useState } from "react";
+import { useMixes /*, type Mix*/ } from "../hooks/useMixes";
+import MixCard from "../components/MixCard";
 
 export default function Home() {
-  const [currentMix, setCurrentMix] = useState<Mix | null>(null);
-  const [mixes, setMixes] = useState<Mix[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/api/v1/mixes")
-      .then((res) => res.json())
-      .then((data) => {
-        const rawMixes = Array.isArray(data?.mixes) ? data.mixes : [];
-
-        // normalize shape from backend → frontend
-        const normalized: Mix[] = rawMixes.map((m: Mix) => ({
-          title: m.title,
-          description: m.description,
-          length: m.length ?? "",
-          tags: Array.isArray(m.tags) ? m.tags : [],
-          soundcloud: m.soundcloud ?? "",
-          mixcloud: m.mixcloud ?? "",
-          track_id: m.track_id,
-          date: m.date,
-          location: m.location,
-        }));
-
-        setMixes(normalized);
-      })
-      .catch((err) => {
-        console.error("Failed to load mixes", err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
+  const { mixes, loading } = useMixes();
+  //const [currentMix, setCurrentMix] = useState<Mix | null>(null);
   const featured = !loading && mixes.length > 0 ? mixes[0] : null;
 
   return (
@@ -79,6 +40,8 @@ export default function Home() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="https://soundcloud.com/line808"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
               >
                 Listen on SoundCloud
@@ -122,6 +85,7 @@ export default function Home() {
                 <div className="flex gap-2">
                   {featured.soundcloud ? (
                     <a
+                      // onClick={() => setCurrentMix(featured)}
                       href={featured.soundcloud}
                       target="_blank"
                       rel="noreferrer"
@@ -152,12 +116,9 @@ export default function Home() {
         </section>
 
         {/* LATEST MIXES */}
-        <section aria-labelledby="latest-mixes" className="mt-16 space-y-6">
+        <section className="mt-16 space-y-6">
           <div className="flex items-center justify-between">
-            <h2
-              id="latest-mixes"
-              className="text-sm font-semibold tracking-wide text-white/70"
-            >
+            <h2 className="text-sm font-semibold tracking-wide text-white/70">
               Latest mixes
             </h2>
             <a
@@ -170,28 +131,12 @@ export default function Home() {
 
           {loading ? (
             <p className="text-gray-500">Loading mixes…</p>
-          ) : mixes.length === 0 ? (
-            <p className="text-gray-500 text-sm">No mixes found.</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-3">
               {mixes.map((mix) => (
-                <article
-                  key={mix.title}
-                  className="rounded-xl bg-white/2 border border-white/5 p-4 hover:bg-white/5 transition"
-                >
-                  <h3 className="text-sm font-medium">{mix.title}</h3>
-                  <p className="text-xs text-white/40 mt-1">
-                    {mix.length}
-                    {mix.tags?.length ? " · " + mix.tags.join(" · ") : ""}
-                  </p>
-                  <button
-                    onClick={() => setCurrentMix(mix)}
-                    className="mt-4 inline-flex items-center gap-1 text-xs text-white/70 hover:text-white transition"
-                  >
-                    ▶ Play
-                    <span className="text-white/30">SC</span>
-                  </button>
-                </article>
+                <div key={mix.title}>
+                  <MixCard mix={mix} />
+                </div>
               ))}
             </div>
           )}
@@ -247,7 +192,7 @@ export default function Home() {
         </section>
 
         {/* MODAL PLAYER */}
-        {currentMix && (
+        {/* {currentMix && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
             <div className="bg-[#111] border border-white/10 rounded-xl p-4 w-[90%] max-w-md shadow-xl">
               <div className="flex items-center justify-between mb-3">
@@ -261,8 +206,6 @@ export default function Home() {
                   ✕
                 </button>
               </div>
-
-              {/* Prefer track_id → else fallback to soundcloud URL */}
               {currentMix.track_id ? (
                 <iframe
                   width="100%"
@@ -285,7 +228,7 @@ export default function Home() {
               )}
             </div>
           </div>
-        )}
+        )} */}
       </main>
     </div>
   );
