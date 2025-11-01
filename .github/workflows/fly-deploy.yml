@@ -3,27 +3,38 @@ name: Deploy Frontend to Fly
 on:
   push:
     branches:
-      - main # deploy when pushing to main (change if needed)
+      - main
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy
     runs-on: ubuntu-latest
-    concurrency: deploy-group
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # (optional) run tests for backend
+      # - name: Setup Go
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: "1.22"
+      # - name: Go tests
+      #   working-directory: ./backend
+      #   run: go test ./...
+
       - name: Setup Node
+        # use an LTS / stable here unless you really need 24
         uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 20
 
-      - name: Install dependencies
+      # 👇 this is the important part
+      - name: Install frontend deps
+        working-directory: ./front
         run: npm ci
 
-      - name: Build site
+      - name: Build frontend
+        working-directory: ./front
         run: npm run build
 
       - name: Setup Flyctl
@@ -34,4 +45,5 @@ jobs:
       - name: Deploy to Fly
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: fly deploy --config fly.toml --detach
+        # fly.toml is now in the repo root (line808/)
+        run: fly deploy --config fly.toml --remote-only --detach
