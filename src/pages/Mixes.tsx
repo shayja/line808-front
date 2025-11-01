@@ -1,4 +1,4 @@
-// src/pages/Mixes.tsxß
+// src/pages/Mixes.tsx
 
 const mixes = [
   {
@@ -81,10 +81,6 @@ export default function Mixes() {
           </article>
         ))}
       </div>
-
-      <footer className="mt-10 text-xs text-gray-500 text-center">
-        © {new Date().getFullYear()} DJ Line808 - Raw · Deep · Hypnotic
-      </footer>
     </div>
   );
 }

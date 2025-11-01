@@ -1,14 +1,8 @@
 // src/pages/Home.tsx
 import React from "react";
-
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  //const user = "dj";
-  //const domain = "line808.com";
-
-  const user = "djline808";
-  const domain = "gmail.com";
-
   const listenLinks = [
     {
       name: "SoundCloud",
@@ -114,23 +108,16 @@ export default function Home() {
         <LinkGrid links={followLinks} />
       </section>
 
-      {/* Contact */}
+      {/* CTA to contact page */}
       <section className="mt-6">
-        <h2 className="text-xl font-semibold mb-2">📧 Booking / contact</h2>
-        <p className="text-gray-400 text-sm mb-3">
-          For club shows, guest mixes and collaborations:
-        </p>
-        <a
-          href={`mailto:${user}@${domain}`}
-          className="text-[--color-primary] hover:text-[--color-accent] underline text-lg"
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[--color-primary] text-black font-medium hover:bg-[--color-accent] transition"
         >
-          {user}@{domain}
-        </a>
+          Contact Line808
+          <span aria-hidden="true">→</span>
+        </Link>
       </section>
-
-      <footer className="mt-8 text-xs text-gray-500">
-        © {new Date().getFullYear()} DJ Line808 — Raw · Deep · Hypnotic
-      </footer>
     </div>
   );
 }
