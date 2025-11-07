@@ -49,7 +49,7 @@ func main() {
 			},
 			{
 				Title:  "Memory Circuit",
-				Description: "Line808 – Groove Techno Mix (October 2025)",
+				Description: "Line808 - Groove Techno Mix (October 2025)",
 				Length: "1:16:00",
 				Tags:   []string{"Raw", "Deep", "Deep Techno",  "130BPM", "Groove", "RDH"},
 				Soundcloud: "https://soundcloud.com/line808/dj-set-2025-10",
@@ -58,12 +58,15 @@ func main() {
 				Date: "2025-10-10",
 				Location: "Tel Aviv",
 			},
-			// {
-			// 	Title:  "Tel Aviv Warehouse Set",
-			// 	Length: "72:09",
-			// 	Tags:   []string{"Peaktime", "Industrial", "Live"},
-			// 	URL:    "https://soundcloud.com/line808/tel-aviv-warehouse-set",
-			// },
+			{
+				Title:  "Forge TLV Sessions 003",
+				Description: "This third chapter of the Forge TLV Sessions series blends Raw, Deep & Hypnotic techno with emotional melodic flow",
+				Length: "1:05:52",
+				Tags:   []string{"Peaktime", "techno", "deep techno", "melodic techno", "Live"},
+				Mixcloud: "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-003-techno-mix-2025/",
+				Date: "2025-10-10",
+				Location: "Tel Aviv",
+			},
 		}
 
 		c.JSON(http.StatusOK, gin.H{"mixes": mixes})

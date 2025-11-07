@@ -19,6 +19,7 @@ export function useMixes() {
 
   useEffect(() => {
     fetch("/api/v1/mixes")
+      //fetch("http://localhost:8080/api/v1/mixes")
       .then((res) => res.json())
       .then((data) => {
         const raw = Array.isArray(data?.mixes) ? data.mixes : [];
