@@ -19,8 +19,8 @@ export function useMixes() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    //fetch("/api/v1/mixes")
-    fetch("http://localhost:8080/api/v1/mixes?nocache=" + Date.now())
+    fetch("/api/v1/mixes")
+      //fetch("http://localhost:8080/api/v1/mixes?nocache=" + Date.now())
       .then((res) => res.json())
       .then((data) => {
         const raw = Array.isArray(data?.mixes) ? data.mixes : [];
