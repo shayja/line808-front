@@ -19,8 +19,8 @@ export function useMixes() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/v1/mixes")
-      //fetch("http://localhost:8080/api/v1/mixes?nocache=" + Date.now())
+    const API_URL = import.meta.env.VITE_API_URL;
+    fetch(`${API_URL}/api/v1/mixes`)
       .then((res) => res.json())
       .then((data) => {
         const raw = Array.isArray(data?.mixes) ? data.mixes : [];
