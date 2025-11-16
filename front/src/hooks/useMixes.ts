@@ -7,6 +7,7 @@ export type Mix = {
   tags: string[];
   soundcloud: string;
   mixcloud?: string;
+  youtube?: string;
   track_id?: string;
   date?: string;
   location?: string;
@@ -18,8 +19,8 @@ export function useMixes() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/v1/mixes")
-      //fetch("http://localhost:8080/api/v1/mixes")
+    //fetch("/api/v1/mixes")
+    fetch("http://localhost:8080/api/v1/mixes?nocache=" + Date.now())
       .then((res) => res.json())
       .then((data) => {
         const raw = Array.isArray(data?.mixes) ? data.mixes : [];
@@ -30,6 +31,7 @@ export function useMixes() {
           tags: Array.isArray(m.tags) ? m.tags : [],
           soundcloud: m.soundcloud ?? "",
           mixcloud: m.mixcloud ?? "",
+          youtube: m.youtube ?? "",
           track_id: m.track_id,
           date: m.date,
           location: m.location,

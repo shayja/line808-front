@@ -6,7 +6,7 @@ import MixCard from "../components/MixCard";
 export default function Home() {
   const { mixes, loading } = useMixes();
   //const [currentMix, setCurrentMix] = useState<Mix | null>(null);
-  const featured = !loading && mixes.length > 0 ? mixes[0] : null;
+  const featured = !loading ? mixes.find((m) => m.youtube) : null;
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white">
@@ -60,8 +60,82 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Featured mix */}
+          {/* Featured YouTube video */}
           <div className="flex-1">
+            {loading ? (
+              <p className="text-gray-500">Loading…</p>
+            ) : featured ? (
+              <article
+                aria-label="Featured DJ mix"
+                className="rounded-2xl bg-white/3 backdrop-blur border border-white/5 p-5 shadow-xl"
+              >
+                <p className="text-xs font-medium text-white/50 uppercase tracking-wide mb-2">
+                  Featured Mix
+                </p>
+
+                <h2 className="text-lg font-semibold mb-1">{featured.title}</h2>
+
+                <p className="text-sm text-white/45 mb-4">
+                  {featured.length}
+                  {featured.tags?.length
+                    ? " · " + featured.tags.join(" · ")
+                    : ""}
+                  {featured.location
+                    ? ` · Recorded in ${featured.location}`
+                    : ""}
+                </p>
+
+                {/* Responsive YouTube embed */}
+                {featured.youtube ? (
+                  <div className="relative w-full pt-[56.25%] rounded-xl overflow-hidden mb-3">
+                    <iframe
+                      className="absolute inset-0 w-full h-full rounded-xl"
+                      src={`https://www.youtube.com/embed/${featured.youtube}?si=DVCV1wE4sT_lIq_k`}
+                      title={featured.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                  </div>
+                ) : (
+                  <p className="text-xs text-white/50">
+                    No YouTube video available.
+                  </p>
+                )}
+
+                {/* Buttons */}
+                <div className="flex gap-2 mt-2">
+                  {featured.soundcloud ? (
+                    <a
+                      href={featured.soundcloud}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 rounded-lg bg-white/10 px-3 py-2 text-sm hover:bg-white/15 transition text-center"
+                    >
+                      Play on SoundCloud
+                    </a>
+                  ) : null}
+
+                  {featured.mixcloud ? (
+                    <a
+                      href={featured.mixcloud}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 rounded-lg bg-transparent ring-1 ring-white/10 px-3 py-2 text-sm hover:bg-white/5 transition text-center"
+                    >
+                      Mixcloud
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ) : (
+              <p className="text-gray-500">No mixes yet.</p>
+            )}
+          </div>
+
+          {/* Featured mix */}
+          {/* <div className="flex-1">
             {loading ? (
               <p className="text-gray-500">Loading…</p>
             ) : featured ? (
@@ -112,7 +186,7 @@ export default function Home() {
             ) : (
               <p className="text-gray-500">No mixes yet.</p>
             )}
-          </div>
+          </div> */}
         </section>
 
         {/* LATEST MIXES */}

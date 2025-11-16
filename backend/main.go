@@ -13,6 +13,7 @@ type Mix struct {
 	Tags   []string `json:"tags"`
 	Soundcloud    string   `json:"soundcloud,omitempty"`
 	Mixcloud      string   `json:"mixcloud,omitempty"`
+	YouTube       string   `json:"youtube,omitempty"`
 	TrackID string    `json:"track_id,omitempty"`
 	Date   string   `json:"date,omitempty"`
 	Location string   `json:"location,omitempty"`
@@ -37,7 +38,7 @@ func main() {
 	r.GET("/api/v1/mixes", func(c *gin.Context) {
 		mixes := []Mix{
 			{
-				Title:  "Deep Signal",
+				Title:  "Forge TLV Sessions 002",
 				Description: "Deep, hypnotic, and raw — this mix flows through layers of rhythm and tension. -A selection of new R/D/H techno tracks that capture the essence of the underground groove. Every track here is fresh, powerful, and timeless.\r\nTacks by: Efdemin, Arkan, Altinbas, Hiroaki Iizuka, Inigo Kennedy, Amotik, Shlomi Aber, 10.000 BC, Yan Cook, 1morning, Ciarra Black, ANNE, Invexis & The Sixth Sense, Nastia Reigel",
 				Length: "1:02:59",
 				Tags:   []string{"Peaktime", "RDH", "Hypnotic", "130BPM", "Deep Techno"},
@@ -48,12 +49,13 @@ func main() {
 				Location: "Tel Aviv",
 			},
 			{
-				Title:  "Memory Circuit",
+				Title:  "Forge TLV Sessions 001",
 				Description: "Line808 - Groove Techno Mix (October 2025)",
 				Length: "1:16:00",
 				Tags:   []string{"Raw", "Deep", "Deep Techno",  "130BPM", "Groove", "RDH"},
 				Soundcloud: "https://soundcloud.com/line808/dj-set-2025-10",
 				Mixcloud: "https://www.mixcloud.com/line808/dj-line808-memory-circuit-dj-mix/",
+				YouTube: "9tWIqiRTVeE",
 				TrackID: "253A2190285995",
 				Date: "2025-10-10",
 				Location: "Tel Aviv",
