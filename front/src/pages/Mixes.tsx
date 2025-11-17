@@ -1,9 +1,20 @@
 // src/pages/Mixes.tsx
+import { useEffect } from "react";
 import { useMixes } from "../hooks/useMixes";
 import MixCard from "../components/MixCard";
+import { trackEvent } from "../lib/analytics";
 
 export default function Mixes() {
   const { mixes, loading } = useMixes();
+
+  useEffect(() => {
+    if (!loading) {
+      trackEvent("view_mix_list", {
+        mix_count: mixes.length,
+        location: "mixes_page",
+      });
+    }
+  }, [loading, mixes.length]);
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-10">

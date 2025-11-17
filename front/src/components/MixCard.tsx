@@ -1,9 +1,13 @@
+// src/components/MixCard.tsx
 import type { Mix } from "../hooks/useMixes";
+import { trackEvent } from "../lib/analytics";
 
 export default function MixCard({ mix }: { mix: Mix }) {
+  const mixId = mix.track_id || mix.title;
+
   return (
     <article
-      key={mix.track_id || mix.title}
+      key={mixId}
       className="rounded-xl bg-white/2 border border-white/5 p-4 hover:bg-white/5 transition"
     >
       <h3 className="text-sm font-medium">{mix.title}</h3>
@@ -18,7 +22,15 @@ export default function MixCard({ mix }: { mix: Mix }) {
             href={mix.soundcloud}
             target="_blank"
             rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              trackEvent("click_listen", {
+                platform: "soundcloud",
+                mix_title: mix.title,
+                mix_id: mix.track_id,
+                href: mix.soundcloud,
+              });
+            }}
             className="px-4 py-2 rounded-lg bg-[#ff7700] text-black font-semibold hover:brightness-110 transition"
           >
             SoundCloud
@@ -31,7 +43,15 @@ export default function MixCard({ mix }: { mix: Mix }) {
             href={mix.mixcloud}
             target="_blank"
             rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              trackEvent("click_listen", {
+                platform: "mixcloud",
+                mix_title: mix.title,
+                mix_id: mix.track_id,
+                href: mix.mixcloud,
+              });
+            }}
             className="px-4 py-2 rounded-lg border border-[#52aad8] text-sm hover:bg-[#52aad8]/10 transition"
           >
             Mixcloud
@@ -44,7 +64,15 @@ export default function MixCard({ mix }: { mix: Mix }) {
             href={`https://youtu.be/${mix.youtube}?si=kKfWagk-qJN9lrFa`}
             target="_blank"
             rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              trackEvent("click_listen", {
+                platform: "youtube",
+                mix_title: mix.title,
+                mix_id: mix.track_id,
+                href: `https://youtu.be/${mix.youtube}?si=kKfWagk-qJN9lrFa`,
+              });
+            }}
             className="px-4 py-2 rounded-lg bg-[#ff0000] text-white font-semibold hover:brightness-110 transition"
           >
             YouTube

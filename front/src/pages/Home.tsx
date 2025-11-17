@@ -2,6 +2,7 @@
 //import { useState } from "react";
 import { useMixes /*, type Mix*/ } from "../hooks/useMixes";
 import MixCard from "../components/MixCard";
+import { trackEvent } from "../lib/analytics";
 
 export default function Home() {
   const { mixes, loading } = useMixes();
@@ -42,6 +43,13 @@ export default function Home() {
                 href="https://soundcloud.com/line808"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  trackEvent("click_listen", {
+                    platform: "soundcloud",
+                    location: "hero",
+                    href: "https://soundcloud.com/line808",
+                  })
+                }
                 className="inline-flex items-center gap-2 rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
               >
                 Listen on SoundCloud
@@ -49,6 +57,12 @@ export default function Home() {
               </a>
               <a
                 href="/mixes"
+                onClick={() =>
+                  trackEvent("click_internal_nav", {
+                    target: "/mixes",
+                    location: "hero",
+                  })
+                }
                 className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 text-sm text-white/80 ring-1 ring-white/10 hover:bg-white/10 transition"
               >
                 View all mixes
@@ -111,6 +125,15 @@ export default function Home() {
                       href={featured.soundcloud}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={() =>
+                        trackEvent("click_listen", {
+                          platform: "soundcloud",
+                          location: "featured",
+                          mix_title: featured.title,
+                          mix_id: featured.track_id,
+                          href: featured.soundcloud,
+                        })
+                      }
                       className="flex-1 rounded-lg bg-white/10 px-3 py-2 text-sm hover:bg-white/15 transition text-center"
                     >
                       Play on SoundCloud
@@ -122,6 +145,15 @@ export default function Home() {
                       href={featured.mixcloud}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={() =>
+                        trackEvent("click_listen", {
+                          platform: "mixcloud",
+                          location: "featured",
+                          mix_title: featured.title,
+                          mix_id: featured.track_id,
+                          href: featured.mixcloud,
+                        })
+                      }
                       className="flex-1 rounded-lg bg-transparent ring-1 ring-white/10 px-3 py-2 text-sm hover:bg-white/5 transition text-center"
                     >
                       Mixcloud
@@ -133,60 +165,6 @@ export default function Home() {
               <p className="text-gray-500">No mixes yet.</p>
             )}
           </div>
-
-          {/* Featured mix */}
-          {/* <div className="flex-1">
-            {loading ? (
-              <p className="text-gray-500">Loading…</p>
-            ) : featured ? (
-              <article
-                aria-label="Featured DJ mix"
-                className="rounded-2xl bg-white/3 backdrop-blur border border-white/5 p-5 shadow-xl"
-              >
-                <p className="text-xs font-medium text-white/50 uppercase tracking-wide mb-2">
-                  Featured mix
-                </p>
-                <h2 className="text-lg font-semibold mb-1">{featured.title}</h2>
-                <p className="text-sm text-white/45 mb-4">
-                  {featured.length}
-                  {featured.tags?.length
-                    ? " · " + featured.tags.join(" · ")
-                    : ""}
-                  {featured.location
-                    ? ` · Recorded in ${featured.location}`
-                    : ""}
-                </p>
-                <div className="flex gap-2">
-                  {featured.soundcloud ? (
-                    <a
-                      // onClick={() => setCurrentMix(featured)}
-                      href={featured.soundcloud}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 rounded-lg bg-white/10 px-3 py-2 text-sm hover:bg-white/15 transition text-center"
-                    >
-                      Play on SoundCloud
-                    </a>
-                  ) : null}
-                  {featured.mixcloud ? (
-                    <a
-                      href={featured.mixcloud}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 rounded-lg bg-transparent ring-1 ring-white/10 px-3 py-2 text-sm hover:bg-white/5 transition text-center"
-                    >
-                      Mixcloud
-                    </a>
-                  ) : null}
-                </div>
-                <div className="mt-4 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full w-2/3 bg-gradient-to-r from-fuchsia-400 to-sky-400" />
-                </div>
-              </article>
-            ) : (
-              <p className="text-gray-500">No mixes yet.</p>
-            )}
-          </div> */}
         </section>
 
         {/* LATEST MIXES */}
@@ -197,6 +175,12 @@ export default function Home() {
             </h2>
             <a
               href="/mixes"
+              onClick={() =>
+                trackEvent("click_internal_nav", {
+                  target: "/mixes",
+                  location: "latest_mixes_heading",
+                })
+              }
               className="text-xs text-white/40 hover:text-white/70 transition"
             >
               View all →
@@ -237,6 +221,13 @@ export default function Home() {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  trackEvent("click_social", {
+                    network: item.label.toLowerCase(),
+                    href: item.href,
+                    location: "home_socials",
+                  })
+                }
                 className="rounded-lg bg-white/3 px-4 py-2 text-sm text-white/80 hover:bg-white/8 transition"
               >
                 {item.label}
@@ -258,6 +249,12 @@ export default function Home() {
             </div>
             <a
               href="/contact"
+              onClick={() =>
+                trackEvent("click_internal_nav", {
+                  target: "/contact",
+                  location: "contact_cta",
+                })
+              }
               className="rounded-lg bg-white/90 text-black px-4 py-2 text-sm font-semibold hover:bg-white transition"
             >
               Contact Line808 →
@@ -265,44 +262,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* MODAL PLAYER */}
-        {/* {currentMix && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-            <div className="bg-[#111] border border-white/10 rounded-xl p-4 w-[90%] max-w-md shadow-xl">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-white/80">
-                  Now Playing
-                </h3>
-                <button
-                  onClick={() => setCurrentMix(null)}
-                  className="text-white/50 hover:text-white/80 text-xs"
-                >
-                  ✕
-                </button>
-              </div>
-              {currentMix.track_id ? (
-                <iframe
-                  width="100%"
-                  height="166"
-                  scrolling="no"
-                  frameBorder="no"
-                  allow="autoplay"
-                  src={
-                    "https://w.soundcloud.com/player/?url=" +
-                    encodeURIComponent(
-                      `https://api.soundcloud.com/tracks/${currentMix.track_id}`
-                    ) +
-                    "&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                  }
-                ></iframe>
-              ) : (
-                <p className="text-xs text-white/50">
-                  No SoundCloud link for this mix.
-                </p>
-              )}
-            </div>
-          </div>
-        )} */}
+        {/* MODAL PLAYER (commented out) */}
+        {/* ... */}
       </main>
     </div>
   );
