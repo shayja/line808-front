@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type Mix struct {
@@ -46,6 +48,15 @@ var mixes = []Mix{
 		Location:    "Tel Aviv",
 	},
 	{
+		Title:       "Forge TLV Sessions 004",
+		Description: "Peak-Time Hard Techno from Tel Aviv's underground. Explosive kicks, relentless drive, and razor-sharp grooves - this Forge TLV chapter hits straight to the core. Industrial pressure, rave energy, and hypnotic tension built for dark rooms and late-night chaos.",
+		Length:      "1:05:52",
+		Tags:        []string{"Peaktime", "Techno", "Deep Techno", "DJ Set", "Live"},
+		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-004-techno-mix-2025/",
+		Date:        "2025-11-25",
+		Location:    "Tel Aviv",
+	},
+	{
 		Title:       "Forge TLV Sessions 003",
 		Description: "This third chapter of the Forge TLV Sessions series blends Raw, Deep & Hypnotic techno with emotional melodic flow.",
 		Length:      "1:05:52",
@@ -57,6 +68,11 @@ var mixes = []Mix{
 }
 
 func main() {
+		// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+
 	r := gin.Default()
 
 	// Optional, but recommended on newer Gin
@@ -80,6 +96,8 @@ func main() {
 	r.GET("/api/v1/mixes", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"mixes": mixes})
 	})
+	r.POST("/api/v1/leads", createLeadHandler)
+	
 
 	// Start server
 	r.Run(":8080")

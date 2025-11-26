@@ -1,5 +1,6 @@
 // src/pages/Contact.tsx
 import EmailLink from "../components/EmailLink";
+import ContactForm from "../components/ContactForm";
 import { trackEvent } from "../lib/analytics";
 
 export default function Contact() {
@@ -17,25 +18,33 @@ export default function Contact() {
         (if known).
       </p>
 
-      {/* EMAIL BOX */}
-      <div className="bg-[#111216] border border-gray-800 rounded-xl px-6 py-5 max-w-md w-full text-left mt-4">
-        <h2 className="text-lg font-semibold mb-2">Email</h2>
+      {/* EMAIL + FORM WRAPPER */}
+      <div className="flex flex-col md:flex-row gap-6 items-stretch justify-center w-full max-w-4xl mt-4">
+        {/* EMAIL BOX */}
+        <div className="bg-[#111216] border border-gray-800 rounded-xl px-6 py-5 max-w-md w-full text-left">
+          <h2 className="text-lg font-semibold mb-2">Email</h2>
 
-        <div
-          onClick={() =>
-            trackEvent("click_email", {
-              method: "mailto",
-              email: `${user}@${domain}`,
-              location: "contact_page",
-            })
-          }
-        >
-          <EmailLink user={user} domain={domain} />
+          <div
+            onClick={() =>
+              trackEvent("click_email", {
+                method: "mailto",
+                email: `${user}@${domain}`,
+                location: "contact_page",
+              })
+            }
+          >
+            <EmailLink user={user} domain={domain} />
+          </div>
+
+          <p className="text-gray-500 text-xs mt-3">
+            Subject: <code>Booking — DJ Line808</code>
+          </p>
         </div>
 
-        <p className="text-gray-500 text-xs mt-3">
-          Subject: <code>Booking — DJ Line808</code>
-        </p>
+        {/* CONTACT FORM */}
+        <div className="flex justify-center w-full">
+          <ContactForm />
+        </div>
       </div>
 
       {/* QUICK INFO */}
