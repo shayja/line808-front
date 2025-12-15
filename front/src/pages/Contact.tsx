@@ -14,7 +14,7 @@ export default function Contact() {
 
       <p className="text-gray-300 max-w-xl">
         For club bookings, guest mixes, label showcases or live streaming
-        sessions — reach out. Please include date, city, venue and set length
+        sessions - reach out. Please include date, city, venue and set length
         (if known).
       </p>
 
