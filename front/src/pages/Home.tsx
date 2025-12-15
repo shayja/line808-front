@@ -22,7 +22,9 @@ export default function Home() {
             <p className="inline-flex items-center gap-2 rounded-full bg-[--color-primary]/10 px-4 py-1.5 text-xs text-[--color-primary] ring-1 ring-[--color-primary]/20">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="font-medium">Tel Aviv, Israel</span>
-              <span className="text-[--color-text-muted]">· Raw / Deep / Hypnotic Techno</span>
+              <span className="text-[--color-text-muted]">
+                · Raw / Deep / Hypnotic Techno
+              </span>
             </p>
 
             <h1
@@ -98,12 +100,18 @@ export default function Home() {
                   )}
 
                   <div className="flex flex-wrap gap-3 text-xs mb-4">
-                    <span className="text-[--color-text-subtle]">{featured.length}</span>
+                    <span className="text-[--color-text-subtle]">
+                      {featured.length}
+                    </span>
                     {featured.tags?.map((tag, index) => (
-                      <span key={index} className="text-[--color-accent]">· {tag}</span>
+                      <span key={index} className="text-[--color-accent]">
+                        · {tag}
+                      </span>
                     ))}
                     {featured.location && (
-                      <span className="text-[--color-text-subtle]">· {featured.location}</span>
+                      <span className="text-[--color-text-subtle]">
+                        · {featured.location}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -123,7 +131,9 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center h-64 bg-[--color-surface-3] rounded-xl mb-4">
-                    <p className="text-[--color-text-subtle]">No YouTube video available</p>
+                    <p className="text-[--color-text-subtle]">
+                      No YouTube video available
+                    </p>
                   </div>
                 )}
 
@@ -172,7 +182,9 @@ export default function Home() {
               </article>
             ) : (
               <div className="flex items-center justify-center h-96 bg-[--color-surface-3] rounded-2xl border border-[--color-border]">
-                <p className="text-[--color-text-muted]">No featured mixes available</p>
+                <p className="text-[--color-text-muted]">
+                  No featured mixes available
+                </p>
               </div>
             )}
           </div>
@@ -201,7 +213,10 @@ export default function Home() {
           {loading ? (
             <div className="grid gap-4 md:grid-cols-3">
               {[...Array(3)].map((_, index) => (
-                <div key={index} className="skeleton-loader h-48 rounded-xl"></div>
+                <div
+                  key={index}
+                  className="skeleton-loader h-48 rounded-xl"
+                ></div>
               ))}
             </div>
           ) : mixes.length > 0 ? (
@@ -212,7 +227,9 @@ export default function Home() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-[--color-text-muted] mb-4">No mixes available yet</p>
+              <p className="text-[--color-text-muted] mb-4">
+                No mixes available yet
+              </p>
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 text-[--color-primary] hover:text-[--color-accent] transition-colors"
@@ -225,20 +242,43 @@ export default function Home() {
 
         {/* SOCIALS */}
         <section aria-labelledby="follow" className="mt-20">
-          <h2 id="follow" className="text-lg font-bold text-[--color-text] mb-3">
+          <h2
+            id="follow"
+            className="text-lg font-bold text-[--color-text] mb-3"
+          >
             Follow Line808
           </h2>
           <p className="text-[--color-text-muted] mb-6 max-w-2xl">
-            Stay connected for exclusive clips, behind-the-scenes content, artwork reveals,
-            and the latest release announcements.
+            Stay connected for exclusive clips, behind-the-scenes content,
+            artwork reveals, and the latest release announcements.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
-              { label: "Instagram", href: "https://instagram.com/djline808", icon: "📷" },
-              { label: "TikTok", href: "https://tiktok.com/@dj.line808", icon: "🎥" },
-              { label: "YouTube", href: "https://youtube.com/@djline808", icon: "📺" },
-              { label: "X / Twitter", href: "https://x.com/dj_line808", icon: "🐦" },
-              { label: "Facebook", href: "https://facebook.com/djline808", icon: "👥" },
+              {
+                label: "Instagram",
+                href: "https://instagram.com/djline808",
+                icon: "📷",
+              },
+              {
+                label: "TikTok",
+                href: "https://tiktok.com/@dj.line808",
+                icon: "🎥",
+              },
+              {
+                label: "YouTube",
+                href: "https://youtube.com/@djline808",
+                icon: "📺",
+              },
+              {
+                label: "X / Twitter",
+                href: "https://x.com/dj_line808",
+                icon: "🐦",
+              },
+              {
+                label: "Facebook",
+                href: "https://facebook.com/djline808",
+                icon: "👥",
+              },
             ].map((item) => (
               <a
                 key={item.label}
@@ -265,14 +305,19 @@ export default function Home() {
         <section aria-labelledby="contact" className="mt-20 mb-12">
           <div className="rounded-2xl bg-gradient-to-r from-[--color-primary]/10 to-[--color-accent]/5 border border-[--color-border] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex-1">
-              <h2 id="contact" className="text-xl font-bold text-[--color-text] mb-2">
+              <h2
+                id="contact"
+                className="text-xl font-bold text-[--color-text] mb-2"
+              >
                 Bookings & Collaborations
               </h2>
               <p className="text-[--color-text-muted] mb-3">
-                Available for club nights, festival slots, guest mixes, and live streaming sessions.
+                Available for club nights, festival slots, guest mixes, and live
+                streaming sessions.
               </p>
               <p className="text-sm text-[--color-text-subtle]">
-                Specializing in Raw, Deep & Hypnotic Techno for underground venues and major events.
+                Specializing in Raw, Deep & Hypnotic Techno for underground
+                venues and major events.
               </p>
             </div>
             <a

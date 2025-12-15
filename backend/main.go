@@ -24,11 +24,29 @@ type Mix struct {
 }
 
 var mixes = []Mix{
+		{
+		Title:       "Forge TLV Sessions 004",
+		Description: "Experience a hard techno DJ set with peak-time energy and underground vibe. This techno mix captures the raw energy of Tel Aviv club culture with hypnotic industrial rhythms and live DJ set flow.",
+		Length:      "1:24:56",
+		Tags:        []string{"Techno DJ", "Hard techno mix", "Live DJ set", "Tel Aviv club DJ", "Peak-time techno", "Underground techno"},
+		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-004-techno-mix-2025/",
+		Date:        "2025-11-25",
+		Location:    "Tel Aviv",
+	},
+	{
+		Title:       "Forge TLV Sessions 003",
+		Description: "The third chapter of Forge TLV Sessions dives into Raw, Deep & Hypnotic techno with a strong emotional undercurrent.\nPowerful grooves meet evolving melodic tension, creating a deep underground flow designed for immersive listening and late-night movement.",
+		Length:      "1:05:52",
+		Tags:        []string{"Raw", "Deep", "Hypnotic Techno", "Melodic Techno", "Live", "Live Mix", "Techno Session", "Techno Mix"},
+		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-003-techno-mix-2025/",
+		Date:        "2025-10-10",
+		Location:    "Tel Aviv",
+	},
 	{
 		Title:       "Forge TLV Sessions 002",
-		Description: "Deep, hypnotic, and raw — this mix flows through layers of rhythm and tension. A selection of new R/D/H techno tracks that capture the essence of the underground groove.",
+		Description: "Deep, hypnotic, and raw - a tightly woven journey through layered rhythms and building tension.\nThis session captures the essence of RDH techno: rolling grooves, subtle shifts, and underground energy that keeps the listener locked in from start to finish.",
 		Length:      "1:02:59",
-		Tags:        []string{"Peaktime", "RDH", "Hypnotic", "130BPM", "Deep Techno"},
+		Tags:        []string{"Raw", "Deep", "Hypnotic Techno", "Melodic Techno", "Live"},
 		Soundcloud:  "https://soundcloud.com/line808/deep-signal-dj-mix",
 		Mixcloud:    "https://www.mixcloud.com/line808/line808-deep-signal-techno-mix-october-2025/",
 		TrackID:     "253A2193903315",
@@ -37,9 +55,9 @@ var mixes = []Mix{
 	},
 	{
 		Title:       "Forge TLV Sessions 001",
-		Description: "Line808 - Groove Techno Mix (October 2025)",
+		Description: "The foundation of the Forge TLV Sessions series.\nA groove-driven techno set blending raw textures, deep rhythms, and steady hypnotic momentum - setting the tone for the sound, direction, and underground identity of DJ Line808.",
 		Length:      "1:16:00",
-		Tags:        []string{"Raw", "Deep", "Deep Techno", "130BPM", "Groove", "RDH"},
+		Tags:        []string{"Groove", "Deep", "Deep Techno", "130BPM", "RDH"},
 		Soundcloud:  "https://soundcloud.com/line808/dj-set-2025-10",
 		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-memory-circuit-dj-mix/",
 		YouTube:     "9tWIqiRTVeE",
@@ -47,24 +65,8 @@ var mixes = []Mix{
 		Date:        "2025-10-10",
 		Location:    "Tel Aviv",
 	},
-	{
-		Title:       "Forge TLV Sessions 004",
-		Description: "Peak-Time Hard Techno from Tel Aviv's underground. Explosive kicks, relentless drive, and razor-sharp grooves - this Forge TLV chapter hits straight to the core. Industrial pressure, rave energy, and hypnotic tension built for dark rooms and late-night chaos.",
-		Length:      "1:05:52",
-		Tags:        []string{"Peaktime", "Techno", "Deep Techno", "DJ Set", "Live"},
-		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-004-techno-mix-2025/",
-		Date:        "2025-11-25",
-		Location:    "Tel Aviv",
-	},
-	{
-		Title:       "Forge TLV Sessions 003",
-		Description: "This third chapter of the Forge TLV Sessions series blends Raw, Deep & Hypnotic techno with emotional melodic flow.",
-		Length:      "1:05:52",
-		Tags:        []string{"Peaktime", "Techno", "Deep Techno", "Melodic Techno", "Live"},
-		Mixcloud:    "https://www.mixcloud.com/line808/dj-line808-forge-tlv-sessions-003-techno-mix-2025/",
-		Date:        "2025-10-10",
-		Location:    "Tel Aviv",
-	},
+	
+	
 }
 
 func main() {
