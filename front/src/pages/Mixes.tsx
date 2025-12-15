@@ -17,23 +17,55 @@ export default function Mixes() {
   }, [loading, mixes.length]);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
-      <header className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-2">
-          Techno Mixes by DJ Line808 (RDH)
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <header className="text-center mb-12 fade-in">
+        <h1 className="text-4xl font-bold mb-4 text-[--color-text]">
+          <span className="text-[--color-primary]">Techno Mixes</span> by DJ Line808
         </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Raw, Deep &amp; Hypnotic DJ sets recorded in 2025. Stream on
-          SoundCloud or Mixcloud.
+        <p className="text-[--color-text-muted] max-w-3xl mx-auto mb-6">
+          Raw, Deep & Hypnotic DJ sets recorded in Tel Aviv. Stream on
+          SoundCloud, Mixcloud, or YouTube.
         </p>
+        <div className="inline-flex items-center gap-2 bg-[--color-surface-2] px-4 py-2 rounded-full text-sm text-[--color-text-muted]">
+          <span className="text-[--color-primary]">🎧</span>
+          {mixes.length} mixes available
+        </div>
       </header>
 
       {loading ? (
-        <p className="text-gray-500">Loading mixes…</p>
+        <div className="space-y-6">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="skeleton-loader h-32 rounded-xl"></div>
+          ))}
+        </div>
       ) : mixes.length === 0 ? (
-        <p className="text-gray-500 text-sm">No mixes found.</p>
+        <div className="text-center py-16">
+          <div className="mb-6">
+            <div className="inline-block p-4 bg-[--color-surface-2] rounded-full mb-4">
+              <span className="text-2xl">🎵</span>
+            </div>
+          </div>
+          <h2 className="text-xl font-semibold text-[--color-text] mb-2">
+            No mixes found
+          </h2>
+          <p className="text-[--color-text-muted] mb-4">
+            Check back soon for new DJ sets and recordings.
+          </p>
+          <a
+            href="/contact"
+            onClick={() =>
+              trackEvent("click_internal_nav", {
+                target: "/contact",
+                location: "mixes_empty_state",
+              })
+            }
+            className="inline-flex items-center gap-2 text-[--color-primary] hover:text-[--color-accent] transition-colors"
+          >
+            <span>📩</span> Contact for bookings
+          </a>
+        </div>
       ) : (
-        <div className="grid gap-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {mixes.map((mix) => (
             <MixCard key={mix.track_id || mix.title} mix={mix} />
           ))}

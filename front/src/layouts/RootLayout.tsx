@@ -5,9 +5,10 @@ import Footer from "../components/Footer";
 
 export default function RootLayout() {
   return (
-    <div className="min-h-screen bg-[--color-dark] text-white flex flex-col">
+    <div className="min-h-screen bg-[--color-dark] text-[--color-text] flex flex-col">
+      <div className="absolute inset-0 -z-50 bg-[--gradient-surface] opacity-50" />
       <NavBar />
-      <main className="flex-1">
+      <main className="flex-1 fade-in">
         <Outlet />
       </main>
       <Footer />
