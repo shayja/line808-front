@@ -3,11 +3,13 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"backend/internal/application"
 	"backend/internal/infrastructure/airtable"
 	"backend/internal/infrastructure/memory"
 	"backend/internal/presentation/http"
+	"backend/pkg/cache"
 	"backend/pkg/config"
 
 	"github.com/gin-gonic/gin"
@@ -25,9 +27,11 @@ func main() {
 	leadService := application.NewLeadService(leadRepo)
 	leadHandler := http.NewLeadHandler(leadService)
 
+	// Initialize cache with 1 hour TTL for mixes
+	mixCache := cache.NewCache(1 * time.Hour)
 	mixRepo := memory.NewMemoryMixRepository()
 	mixService := application.NewMixService(mixRepo)
-	mixHandler := http.NewMixHandler(mixService)
+	mixHandler := http.NewMixHandler(mixService, mixCache, "all_mixes")
 
 	// Initialize Gin router with default middleware (logger, recovery)
 	r := gin.Default()
