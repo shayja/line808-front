@@ -8,25 +8,50 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"backend/internal/domain"
 )
 
-type airtableLeadRepository struct {
+// AirtableLeadRepository implements the LeadRepository interface for Airtable
+type AirtableLeadRepository struct {
 	baseID    string
 	tableName string
 	token     string
+	client    *http.Client
 }
 
-func NewAirtableLeadRepository() domain.LeadRepository {
-	return &airtableLeadRepository{
-		baseID:    os.Getenv("AIRTABLE_BASE_ID"),
-		tableName: os.Getenv("AIRTABLE_TABLE_NAME"),
-		token:     os.Getenv("AIRTABLE_TOKEN"),
+// NewAirtableLeadRepository creates a new Airtable lead repository
+func NewAirtableLeadRepository() (domain.LeadRepository, error) {
+	baseID := os.Getenv("AIRTABLE_BASE_ID")
+	tableName := os.Getenv("AIRTABLE_TABLE_NAME")
+	token := os.Getenv("AIRTABLE_TOKEN")
+
+	// Validate required environment variables
+	if baseID == "" {
+		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_BASE_ID")
 	}
+	if tableName == "" {
+		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_TABLE_NAME")
+	}
+	if token == "" {
+		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_TOKEN")
+	}
+
+	// Create HTTP client with timeout
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+
+	return &AirtableLeadRepository{
+		baseID:    baseID,
+		tableName: tableName,
+		token:     token,
+		client:    client,
+	}, nil
 }
 
-func (r *airtableLeadRepository) CreateLead(lead domain.Lead) error {
+func (r *AirtableLeadRepository) CreateLead(lead domain.Lead) error {
 	// Build Airtable payload
 	fields := map[string]interface{}{
 		"Name":    lead.Name,
@@ -60,7 +85,7 @@ func (r *airtableLeadRepository) CreateLead(lead domain.Lead) error {
 	req.Header.Set("Authorization", "Bearer "+r.token)
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := r.client.Do(req)
 	if err != nil {
 		return fmt.Errorf("failed to call Airtable API: %w", err)
 	}

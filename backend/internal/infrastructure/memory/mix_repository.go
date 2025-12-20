@@ -1,13 +1,16 @@
+// Package memory provides in-memory implementations of repositories
 package memory
 
 import "backend/internal/domain"
 
-type memoryMixRepository struct {
+// MemoryMixRepository implements an in-memory repository for mixes
+type MemoryMixRepository struct {
 	mixes []domain.Mix
 }
 
+// NewMemoryMixRepository creates a new in-memory mix repository with predefined data
 func NewMemoryMixRepository() domain.MixRepository {
-	return &memoryMixRepository{
+	return &MemoryMixRepository{
 		mixes: []domain.Mix{
 			{
 				Title:       "Forge TLV Sessions 004",
@@ -54,6 +57,8 @@ func NewMemoryMixRepository() domain.MixRepository {
 	}
 }
 
-func (r *memoryMixRepository) GetAllMixes() ([]domain.Mix, error) {
+// GetAllMixes returns all available mixes from the in-memory store
+// Implements the domain.MixRepository interface
+func (r *MemoryMixRepository) GetAllMixes() ([]domain.Mix, error) {
 	return r.mixes, nil
 }
