@@ -4,9 +4,10 @@ package http
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"backend/internal/application"
 	"backend/pkg/cache"
+
+	"github.com/gin-gonic/gin"
 )
 
 // MixHandler handles HTTP requests related to mixes

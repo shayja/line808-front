@@ -1,5 +1,5 @@
 # ========== 1) Build frontend ==========
-FROM node:25-alpine AS web-build
+FROM node:alpine AS web-build
 WORKDIR /app
 
 # Install dependencies
@@ -11,7 +11,7 @@ COPY front/ .
 RUN npm run build
 
 # ========== 2) Build Go backend ==========
-FROM golang:1.25.3-alpine AS go-build
+FROM golang:alpine AS go-build
 WORKDIR /go/src/app
 
 COPY backend/ ./
