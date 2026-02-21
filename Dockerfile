@@ -11,7 +11,7 @@ COPY front/ .
 RUN npm run build
 
 # ========== 2) Build Go backend ==========
-FROM golang:1.24-alpine AS go-build
+FROM golang:alpine AS go-build
 WORKDIR /go/src/app
 
 # Copy the backend folder contents into the workdir
