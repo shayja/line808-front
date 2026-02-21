@@ -2,10 +2,10 @@ package airtable
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -28,37 +28,26 @@ func NewAirtableLeadRepository() (domain.LeadRepository, error) {
 	token := os.Getenv("AIRTABLE_TOKEN")
 
 	// Validate required environment variables
-	if baseID == "" {
-		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_BASE_ID")
-	}
-	if tableName == "" {
-		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_TABLE_NAME")
-	}
-	if token == "" {
-		return nil, fmt.Errorf("missing required environment variable: AIRTABLE_TOKEN")
-	}
-
-	// Create HTTP client with timeout
-	client := &http.Client{
-		Timeout: 30 * time.Second,
+	if baseID == "" || tableName == "" || token == "" {
+		return nil, fmt.Errorf("missing airtable configuration")
 	}
 
 	return &AirtableLeadRepository{
 		baseID:    baseID,
 		tableName: tableName,
 		token:     token,
-		client:    client,
+		client:    &http.Client{Timeout: 30 * time.Second},
 	}, nil
 }
 
-func (r *AirtableLeadRepository) CreateLead(lead domain.Lead) error {
+// CreateLead now implements the context-aware interface
+func (r *AirtableLeadRepository) CreateLead(ctx context.Context, lead domain.Lead) error {
 	// Build Airtable payload
 	fields := map[string]interface{}{
 		"Name":    lead.Name,
 		"Email":   lead.Email,
 		"Message": lead.Message,
 	}
-
 	if lead.Source != "" {
 		fields["Source"] = lead.Source
 	}
@@ -77,7 +66,8 @@ func (r *AirtableLeadRepository) CreateLead(lead domain.Lead) error {
 	// Airtable API URL
 	url := fmt.Sprintf("https://api.airtable.com/v0/%s/%s", r.baseID, r.tableName)
 
-	req, err := http.NewRequest("POST", url, bytes.NewReader(body))
+	// Use NewRequestWithContext to bind the outbound call to the request lifecycle
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(body))
 	if err != nil {
 		return fmt.Errorf("failed to create request: %w", err)
 	}
@@ -87,15 +77,13 @@ func (r *AirtableLeadRepository) CreateLead(lead domain.Lead) error {
 
 	resp, err := r.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to call Airtable API: %w", err)
+		return fmt.Errorf("airtable call failed: %w", err)
 	}
 	defer resp.Body.Close()
 
-	respBody, _ := io.ReadAll(resp.Body)
-
 	if resp.StatusCode >= 300 {
-		log.Printf("Airtable error status: %d, body: %s", resp.StatusCode, string(respBody))
-		return fmt.Errorf("airtable API error: status %d", resp.StatusCode)
+		respBody, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("airtable error: status %d, body %s", resp.StatusCode, string(respBody))
 	}
 
 	return nil

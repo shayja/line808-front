@@ -3,6 +3,7 @@ package application
 
 import (
 	"backend/internal/domain"
+	"context"
 )
 
 // LeadService handles lead-related business logic
@@ -12,25 +13,14 @@ type LeadService struct {
 
 // NewLeadService creates a new LeadService instance
 func NewLeadService(leadRepo domain.LeadRepository) *LeadService {
-	return &LeadService{
-		leadRepo: leadRepo,
-	}
+	return &LeadService{leadRepo: leadRepo}
 }
 
-// CreateLead creates a new lead with the provided information
-// Parameters:
-//   - name: Name of the lead
-//   - email: Email address of the lead
-//   - message: Message from the lead
-//   - source: Optional source of the lead
-// Returns an error if the operation fails
-func (s *LeadService) CreateLead(name, email, message, source string) error {
-	lead := domain.Lead{
-		Name:    name,
-		Email:   email,
-		Message: message,
-		Source:  source,
-	}
-
-	return s.leadRepo.CreateLead(lead)
+// 1. Context added for cancellation and timeouts
+// 2. Accept the Domain entity directly to separate mapping from logic
+func (s *LeadService) CreateLead(ctx context.Context, lead domain.Lead) error {
+	
+	// 3. Domain validation (e.g., check for duplicates or blocked domains)
+	// This is where "Architectural thinking" happens.
+	return s.leadRepo.CreateLead(ctx, lead)
 }

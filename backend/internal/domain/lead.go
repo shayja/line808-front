@@ -1,6 +1,8 @@
 // Package domain contains the core business models and repository interfaces
 package domain
 
+import "context"
+
 // Lead represents a potential customer lead
 type Lead struct {
 	Name    string `json:"name"`    // Name of the lead
@@ -13,5 +15,5 @@ type Lead struct {
 type LeadRepository interface {
 	// CreateLead creates a new lead in the system
 	// Returns an error if the operation fails
-	CreateLead(lead Lead) error
+	CreateLead(ctx context.Context, lead Lead) error
 }

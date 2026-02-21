@@ -3,10 +3,11 @@ package http
 
 import (
 	"net/http"
-	"strings"
+
+	"backend/internal/application"
+	"backend/internal/domain"
 
 	"github.com/gin-gonic/gin"
-	"backend/internal/application"
 )
 
 // LeadHandler handles HTTP requests related to leads
@@ -32,39 +33,33 @@ func NewLeadHandler(leadService *application.LeadService) *LeadHandler {
 // @Failure 502 {object} ErrorResponse "Failed to create lead"
 // @Router /api/v1/leads [post]
 func (h *LeadHandler) CreateLead(c *gin.Context) {
-	var req struct {
-		Name    string `json:"name"`      // Name of the lead
-		Email   string `json:"email"`     // Email address of the lead
-		Message string `json:"message"`   // Message from the lead
-		Source  string `json:"source,omitempty"` // Source of the lead (optional)
-		HP      string `json:"hp,omitempty"` // Honeypot field for bot protection
-	}
+    var req CreateLeadRequest
 
-	if err := c.BindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON"})
-		return
-	}
+    // Gin handles validation automatically via tags
+    if err := c.ShouldBindJSON(&req); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request data"})
+        return
+    }
 
-	// Honeypot (bot protection)
-	if req.HP != "" {
-		c.Status(http.StatusNoContent)
-		return
-	}
+    if req.HP != "" {
+        c.Status(http.StatusNoContent)
+        return
+    }
 
-	// Basic validation
-	if strings.TrimSpace(req.Name) == "" ||
-		strings.TrimSpace(req.Email) == "" ||
-		strings.TrimSpace(req.Message) == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "missing required fields"})
-		return
-	}
+    // 1. Map DTO to Domain Entity
+    newLead := domain.Lead{
+        Name:    req.Name,
+        Email:   req.Email,
+        Message: req.Message,
+        Source:  req.Source,
+    }
 
-	// Call application service
-	err := h.leadService.CreateLead(req.Name, req.Email, req.Message, req.Source)
-	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"error": "failed to create lead"})
-		return
-	}
+    // 2. Pass the Context and the Entity
+    err := h.leadService.CreateLead(c.Request.Context(), newLead)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "service unavailable"})
+        return
+    }
 
-	c.JSON(http.StatusCreated, gin.H{"status": "ok"})
+    c.JSON(http.StatusCreated, gin.H{"status": "ok"})
 }
