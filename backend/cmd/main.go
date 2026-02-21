@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"backend/internal/application"
+	"backend/internal/domain"
 	"backend/internal/infrastructure/airtable"
 	"backend/internal/infrastructure/memory"
 	"backend/internal/presentation/http"
@@ -28,7 +29,7 @@ func main() {
 	leadHandler := http.NewLeadHandler(leadService)
 
 	// Initialize cache with 1 hour TTL for mixes
-	mixCache := cache.NewCache(1 * time.Hour)
+	mixCache := cache.NewCache[[]domain.Mix](1 * time.Hour)
 	mixRepo := memory.NewMemoryMixRepository()
 	mixService := application.NewMixService(mixRepo)
 	mixHandler := http.NewMixHandler(mixService, mixCache, "all_mixes")

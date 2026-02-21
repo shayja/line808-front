@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"backend/internal/application"
+	"backend/internal/domain"
 	"backend/pkg/cache"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ import (
 // MixHandler handles HTTP requests related to mixes
 type MixHandler struct {
 	mixService *application.MixService
-	cache      *cache.Cache
+	cache      *cache.Cache[[]domain.Mix]
 	cacheKey   string
 }
 
@@ -22,7 +23,7 @@ type MixHandler struct {
 //   - mixService: Mix service for business logic
 //   - cache: Cache instance for caching responses
 //   - cacheKey: Key to use for caching mixes data
-func NewMixHandler(mixService *application.MixService, cache *cache.Cache, cacheKey string) *MixHandler {
+func NewMixHandler(mixService *application.MixService, cache *cache.Cache[[]domain.Mix], cacheKey string) *MixHandler {
 	return &MixHandler{
 		mixService: mixService,
 		cache:      cache,

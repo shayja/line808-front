@@ -6,86 +6,65 @@ import (
 	"time"
 )
 
-// CacheItem represents a cached item with expiration time
-type CacheItem struct {
-	value      interface{}
-	expiresAt  time.Time
-}
-
-// Cache is an in-memory cache with thread-safe operations
-type Cache struct {
-	items map[string]*CacheItem
+// Cache is an in-memory cache with thread-safe operations, Use Generics for type safety
+type Cache[T any] struct {
+	items map[string]*CacheItem[T]
 	mu    sync.RWMutex
 	ttl   time.Duration
 }
 
+// CacheItem represents a cached item with expiration time
+type CacheItem[T any] struct {
+	value     T
+	expiresAt time.Time
+}
+
 // NewCache creates a new cache instance with the specified TTL
-// Parameters:
-//   - ttl: Time-to-live duration for cache items
-// Returns a new Cache instance
-func NewCache(ttl time.Duration) *Cache {
-	return &Cache{
-		items: make(map[string]*CacheItem),
+func NewCache[T any](ttl time.Duration) *Cache[T] {
+	return &Cache[T]{
+		items: make(map[string]*CacheItem[T]),
 		ttl:   ttl,
 	}
 }
 
-// Set adds or updates an item in the cache
-// Parameters:
-//   - key: Cache key
-//   - value: Value to cache
-func (c *Cache) Set(key string, value interface{}) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
+// Get retrieves a value from the cache by key.
+func (c *Cache[T]) Get(key string) (T, bool) {
+    c.mu.Lock() // write lock since we may delete
+    defer c.mu.Unlock()
 
-	c.items[key] = &CacheItem{
-		value:     value,
-		expiresAt: time.Now().Add(c.ttl),
-	}
+    item, found := c.items[key]
+    if !found {
+        var zero T
+        return zero, false
+    }
+    if time.Now().After(item.expiresAt) {
+        delete(c.items, key) // inline delete, no second lock
+        var zero T
+        return zero, false
+    }
+    return item.value, true
 }
 
-// Get retrieves an item from the cache if it exists and hasn't expired
-// Parameters:
-//   - key: Cache key
-// Returns the cached value and a boolean indicating if the item was found
-func (c *Cache) Get(key string) (interface{}, bool) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
-
-	item, found := c.items[key]
-	if !found {
-		return nil, false
-	}
-
-	// Check if item has expired
-	if time.Now().After(item.expiresAt) {
-		return nil, false
-	}
-
-	return item.value, true
+// Set stores a value in the cache with the cache's default TTL.
+func (c *Cache[T]) Set(key string, value T) {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    c.items[key] = &CacheItem[T]{
+        value:     value,
+        expiresAt: time.Now().Add(c.ttl),
+    }
 }
 
-// Delete removes an item from the cache
-// Parameters:
-//   - key: Cache key to remove
-func (c *Cache) Delete(key string) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	delete(c.items, key)
-}
-
-// Clear removes all items from the cache
-func (c *Cache) Clear() {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	c.items = make(map[string]*CacheItem)
+// Delete removes an item from the cache.
+func (c *Cache[T]) Delete(key string) {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    delete(c.items, key)
 }
 
 // Size returns the number of items in the cache
 // Returns the count of cached items
-func (c *Cache) Size() int {
+func (c *Cache[T]) Size() int {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
