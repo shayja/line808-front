@@ -1,5 +1,5 @@
 # ========== 1) Build frontend ==========
-FROM node:22-alpine AS web-build 
+FROM node:alpine AS web-build 
 WORKDIR /app
 
 # Install dependencies
