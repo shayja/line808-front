@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"backend/internal/domain"
@@ -21,21 +20,23 @@ type AirtableLeadRepository struct {
 	client    *http.Client
 }
 
-// NewAirtableLeadRepository creates a new Airtable lead repository
-func NewAirtableLeadRepository() (domain.LeadRepository, error) {
-	baseID := os.Getenv("AIRTABLE_BASE_ID")
-	tableName := os.Getenv("AIRTABLE_TABLE_NAME")
-	token := os.Getenv("AIRTABLE_TOKEN")
+// Config holds configuration for Airtable repository
+type Config struct {
+	BaseID    string
+	TableName string
+	Token     string
+}
 
-	// Validate required environment variables
-	if baseID == "" || tableName == "" || token == "" {
+// NewAirtableLeadRepository creates a new Airtable lead repository
+func NewAirtableLeadRepository(cfg Config) (domain.LeadRepository, error) {
+	if cfg.BaseID == "" || cfg.TableName == "" || cfg.Token == "" {
 		return nil, fmt.Errorf("missing airtable configuration")
 	}
 
 	return &AirtableLeadRepository{
-		baseID:    baseID,
-		tableName: tableName,
-		token:     token,
+		baseID:    cfg.BaseID,
+		tableName: cfg.TableName,
+		token:     cfg.Token,
 		client:    &http.Client{Timeout: 30 * time.Second},
 	}, nil
 }
