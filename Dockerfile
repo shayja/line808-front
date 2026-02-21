@@ -1,22 +1,25 @@
 # ========== 1) Build frontend ==========
-FROM node:alpine AS web-build
+FROM node:22-alpine AS web-build 
 WORKDIR /app
 
 # Install dependencies
 COPY front/package*.json ./
 RUN npm install
 
-# Copy source and build
+# Copy source and build the frontend
 COPY front/ .
 RUN npm run build
 
 # ========== 2) Build Go backend ==========
-FROM golang:alpine AS go-build
+FROM golang:1.24-alpine AS go-build
 WORKDIR /go/src/app
 
+# Copy the backend folder contents into the workdir
 COPY backend/ ./
 RUN go mod tidy
-RUN go build -o /go/bin/mixes-api .
+
+# POINT TO THE NEW PATH
+RUN go build -o /go/bin/mixes-api ./cmd/main.go
 
 # ========== 3) Final image ==========
 FROM nginx:alpine
@@ -24,7 +27,7 @@ FROM nginx:alpine
 # clean default nginx html
 RUN rm -rf /usr/share/nginx/html/*
 
-# copy frontend build
+# copy frontend build and nginx config, and the Go binary from the previous stages
 COPY --from=web-build /app/dist /usr/share/nginx/html
 
 # copy nginx config
