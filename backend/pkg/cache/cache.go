@@ -29,20 +29,22 @@ func NewCache[T any](ttl time.Duration) *Cache[T] {
 
 // Get retrieves a value from the cache by key.
 func (c *Cache[T]) Get(key string) (T, bool) {
-    c.mu.Lock() // write lock since we may delete
-    defer c.mu.Unlock()
+	c.mu.RLock()
+	defer c.mu.RUnlock()
 
-    item, found := c.items[key]
-    if !found {
-        var zero T
-        return zero, false
-    }
-    if time.Now().After(item.expiresAt) {
-        delete(c.items, key) // inline delete, no second lock
-        var zero T
-        return zero, false
-    }
-    return item.value, true
+	item, found := c.items[key]
+	if !found {
+		var zero T
+		return zero, false
+	}
+
+	// If expired, treat as not found but don't delete here (requires Write Lock)
+	if time.Now().After(item.expiresAt) {
+		var zero T
+		return zero, false
+	}
+
+	return item.value, true
 }
 
 // Set stores a value in the cache with the cache's default TTL.
